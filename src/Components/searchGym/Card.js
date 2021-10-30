@@ -1,23 +1,18 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const Card = () => {
+const Card = ({name, description}) => {
 
-    const [gymName, setGymName] = useState();
-    const [gymDescription, setGymDescription] = useState();
-    
-    const [trainerName, setTrainerName] = useState();
-    const [trainerDescription, setTrainerDescription] = useState();
     return(
         <div class="flex max-w-md bg-white shadow-lg rounded-lg overflow-hidden">
             <div class="w-1/3 bg-cover bg-landscape">
             </div>
             <div class="w-2/3 p-4">
                 <h1 class="text-gray-900 font-bold text-2xl">
-                    Tomorow
+                    {name}
                 </h1>
                 <p class="mt-2 text-gray-600 text-sm">
-                    You can&#x27;t buy your future, but you can do it. Money is nothing, you&#x27;r everything.
+                    {description}
                 </p>
                 <div class="flex item-center mt-2">
                     <svg class="w-5 h-5 fill-current text-gray-700" viewBox="0 0 24 24">
@@ -54,3 +49,4 @@ const Card = () => {
 
     )
 }
+export default Card;
