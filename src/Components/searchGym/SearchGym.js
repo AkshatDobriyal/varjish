@@ -72,12 +72,12 @@ const SearchGym = () => {
 
     return(
         <>
-            <div className="container">
-                <div className="head">
+            <div className="search">
+                <div className="search__head">
                     <h2>Search your dream gym</h2>
                 </div>
-                <form className="form" onSubmit={handleSubmit}>
-                    <div className="form-control">
+                <form className="search__form" onSubmit={handleSubmit}>
+                    <div className="search__form__dropdown">
                         <Autocomplete
                             disablePortal
                             id="combo-box-demo"
@@ -88,9 +88,13 @@ const SearchGym = () => {
                             renderInput={(params) => <TextField {...params} label="Movie" />}
                         />
                     </div>
-                    {gym && <Card gym={gym}/>}
+                    {gym && 
+                        <div className="search__form__dropdown">
+                            <Card gym={gym}/>
+                        </div>
+                    }
                     {trainers &&
-                        <div className="form-control">
+                        <div className="search__form__dropdown">
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
@@ -102,8 +106,13 @@ const SearchGym = () => {
                             />
                         </div>
                     }
-                    {trainer && <Card trainer={trainer} />}
-
+                    {
+                    trainer &&
+                        <div className="search__form__dropdown">
+                            <Card trainer={trainer} />
+                        </div>
+                    }
+                    
                     <Button variant="contained">Enroll</Button>
                 </form>
             </div>
