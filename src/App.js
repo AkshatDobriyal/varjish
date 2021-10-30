@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import SignIn from "./Components/Login/SignIn/SignIn";
 import SearchGym from "./Components/searchGym/SearchGym";
 import DashboardCard from "./Components/Trainee-dashboard/dashboard_card";
+import Navbar from "./Components/navbar/Navbar";
 
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
 
         <Router >
 
-
+          <Navbar />
           <Switch>
             <Route exact path="/"  component={SignIn}/>
             <Route exact path="/searchGym"  component={SearchGym}/>

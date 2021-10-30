@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import Card from './Card';
+import './SearchGym.scss';
 
 const SearchGym = () => {
     
