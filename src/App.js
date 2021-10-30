@@ -2,6 +2,7 @@ import React from "react";
 import {useHistory} from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import SignIn from "./Components/Login/SignIn/SignIn";
 
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
 
 
           <Switch>
-            <Route exact path="/"  component={''}/>
+            <Route exact path="/"  component={SignIn}/>
             <Route exact path="/Notebooks"  component={''}/>
             <Route exact path="/Notes"  component={''}/>
             <Route exact path="/Notebooks/newNotebook" component={''}/>
