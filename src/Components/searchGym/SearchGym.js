@@ -71,7 +71,7 @@ const SearchGym = () => {
 
     return(
         <>
-            <article className="container">
+            <div className="container">
                 <div className="head">
                     <h2>Search your dream gym</h2>
                 </div>
@@ -105,7 +105,7 @@ const SearchGym = () => {
 
                     <Button variant="contained">Enroll</Button>
                 </form>
-            </article>
+            </div>
         </>
     )
 };
