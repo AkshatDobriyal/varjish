@@ -8,12 +8,22 @@ function SignIn() {
 
 
     return (
-        <div className='flex w-full h-full absolute '>
+        <div className='flex w-full bg-back h-screen mx-auto content-center justify-center absolute '>
 
 
         <div
-            className="flex flex-col w-full max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
-            <div className="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white">
+            className="flex flex-col  content-center w-full my-12 justify-center max-w-md py-2 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
+<div className='flex flex-row... justify-center pb-12 '>
+            <div className=' flex w-1/4 transform rotate-290 ...'>
+                <img src={'https://cdn-icons.flaticon.com/png/512/882/premium/882201.png?token=exp=1635590583~hmac=516eb6afc058b9222d00da9d021dfbe3'}/>
+            </div>
+    <span className='flex mt-7 '>
+        <h1 className='text-5xl pl-2'>
+            VARJISH
+        </h1>
+    </span>
+</div>
+                <div className="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white">
                 Login To Your Account
             </div>
             <div className="mt-8">
