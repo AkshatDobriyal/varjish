@@ -6,6 +6,8 @@
     "@craco/craco": "^6.4.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@headlessui/react": "^1.4.1",
+    "@heroicons/react": "^1.0.5",
     "@hookform/resolvers": "^2.7.0",
     "@mui/icons-material": "^5.0.1",
     "@mui/material": "^5.0.1",

@@ -7,7 +7,7 @@ import TraineeInfo from "./Components/Trainer/TraineeInfo";
 import SearchGym from "./Components/searchGym/SearchGym";
 import DashboardCard from "./Components/Trainee-dashboard/dashboard_card";
 import Navbar from "./Components/navbar/Navbar";
-
+import SignUp from "./Components/Login/SignIn/signUp";
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path="/"  component={SignIn}/>
+            <Route exact path="/signUp"  component={SignUp}/>
             <Route exact path="/searchGym"  component={SearchGym}/>
             <Route exact path="/dashboard"  component={DashboardCard}/>
             <Route exact path='/trainee/info' component={TraineeInfo}/>
