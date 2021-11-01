@@ -7,11 +7,12 @@ import TraineeInfo from "./Components/Trainer/TraineeInfo";
 import SearchGym from "./Components/searchGym/SearchGym";
 import DashboardCard from "./Components/Trainee-dashboard/dashboard_card";
 import Navbar from "./Components/navbar/Navbar";
-import SignUp from "./Components/Login/SignIn/signUp";
+import SignUp from "./Components/Login/SignUp/SignUp";
+import {AppProvider} from "./Context/AppContext";
 
 function App() {
   return (
-
+      <AppProvider>
 
 
         <Router >
@@ -32,7 +33,7 @@ function App() {
 
 
         </Router>
-
+      </AppProvider>
   );
 }
 

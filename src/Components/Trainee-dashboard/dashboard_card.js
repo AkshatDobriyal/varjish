@@ -1,14 +1,20 @@
 import React, {useState}  from "react";
 import {useHistory} from "react-router-dom";
+import {useApp} from "../../Context/AppContext";
 
 function DashboardCard() {
 
+    const {loggedInData}=useApp()
+
     let historyRef = useHistory()
+
+
+
+    console.log(loggedInData)
     return (
 
         
-        // <!-- component -->
-// <!-- Pricing section -->
+
 <section class="w-full pt-16 pb-20 bg-gray-50">
     
     <div class="px-10 mx-auto text-center max-w-7xl">

@@ -1,11 +1,57 @@
 import React, {useState}  from "react";
 import {useHistory} from "react-router-dom";
+import img from '../../../Images/dumbbell.png'
+import axios from "axios";
+import {useApp} from "../../../Context/AppContext";
 
 function SignIn() {
 
     let historyRef = useHistory()
+    const {addLocalStorageData} = useApp()
+    const {setLoggedInData} = useApp()
+    const {loggedInData}=useApp()
 
 
+    const [data, setData] = useState(
+        {
+            email:"",
+            password:"",
+        }
+    )
+
+
+    function onChange(e) {
+        e.persist();
+        setData(() => ({
+            ...data,
+            [e.target.id]: e.target.value,
+        }));
+    }
+
+
+    const onLoginClick=(e)=>{
+e.preventDefault()
+        console.log(data)
+        axios.post("https://amankothari.pythonanywhere.com/login/",data).then((e)=>{
+
+
+            const data = {
+                Token:e.data.Token,
+                role:e.data.user_details.role
+            }
+
+            setLoggedInData(e.data.user_details)
+
+               historyRef.push('/dashboard')
+
+
+
+
+
+}).catch((e)=>{ alert('Incorrect Details',e)
+            window.location.reload()})
+
+    }
 
     return (
         <div className='flex w-full bg-back h-screen mx-auto content-center justify-center absolute '>
@@ -15,7 +61,7 @@ function SignIn() {
             className="flex flex-col  content-center w-full my-12 justify-center max-w-md py-2 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
 <div className='flex flex-row... justify-center pb-12 '>
             <div className=' flex w-1/4 transform rotate-290 ...'>
-                <img src={'https://cdn-icons.flaticon.com/png/512/882/premium/882201.png?token=exp=1635590583~hmac=516eb6afc058b9222d00da9d021dfbe3'}/>
+                <img src={img}/>
             </div>
     <span className='flex mt-7 '>
         <h1 className='text-5xl pl-2'>
@@ -39,9 +85,9 @@ function SignIn() {
                             </path>
                         </svg>
                     </span>
-                            <input type="text" id="sign-in-email"
+                            <input type="text" id="email"
                                    className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                                   placeholder="Your email"/>
+                                   placeholder="Your email" onChange={onChange}/>
                         </div>
                     </div>
                     <div className="flex flex-col mb-6">
@@ -55,9 +101,9 @@ function SignIn() {
                                 </path>
                             </svg>
                         </span>
-                            <input type="password" id="sign-in-email"
+                            <input type="password" id="password"
                                    className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                                   placeholder="Your password"/>
+                                   placeholder="Your password" onChange={onChange}/>
                         </div>
                     </div>
                     <div className="flex items-center mb-6 -mt-4">
@@ -69,7 +115,7 @@ function SignIn() {
                         </div>
                     </div>
                     <div className="flex w-full">
-                        <button type="submit"
+                        <button  onClick={(e)=>(onLoginClick(e))}
                                 className="py-2 px-4  bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
                             Login
                         </button>
@@ -77,9 +123,9 @@ function SignIn() {
                 </form>
             </div>
             <div className="flex items-center justify-center mt-6">
-                <a href="#" target="_blank"
-                   className="inline-flex items-center text-xs font-thin text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white">
-                    <span className="ml-2">
+                <a  target="_blank"
+                   className="inline-flex items-center text-xs font-thin cursor-pointer text-center text-gray-500 hover:text-gray-700 dark:text-gray-100 dark:hover:text-white">
+                    <span className="ml-2" onClick={()=>{historyRef.push('/signUp')}}>
                         You don&#x27;t have an account?
                     </span>
                 </a>
