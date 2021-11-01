@@ -21,12 +21,12 @@ const style = {
 
 function TraineeInfo() {
 
-    const [users, setUsers] = useState([{image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShq7x4KGAx6el9usQ-SEpesKI0rFEDD6e-GQ&usqp=CAU", id:"1", name:"Dev", contact:"9104441107", email:"devparmar37@gmail.com", upload:"", info:""}, {image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShq7x4KGAx6el9usQ-SEpesKI0rFEDD6e-GQ&usqp=CAU", id:"2", name:"Dev", contact:"9104441107", email:"devparmar37@gmail.com", upload:"", info:""}, {image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShq7x4KGAx6el9usQ-SEpesKI0rFEDD6e-GQ&usqp=CAU", id:"3", name:"Dev", contact:"9104441107", email:"devparmar37@gmail.com", upload:"", info:""}])
+    const [users, setUsers] = useState([])
 
 
   useEffect(() => {
     axios
-    .get('https://design-project-backend.herokuapp.com/api/thread/')
+    .get('http://amankothari.pythonanywhere.com/mytrainees/', {headers : {"Authorization": `Token f0ae9718f1638de46b6a6b88399531bafd97ff00`}})
     .then((res) => {
       console.log('get threads 🚀', res)
       setUsers(res.data)
@@ -37,14 +37,16 @@ function TraineeInfo() {
     })
   }, [])
 
-
+console.log(users)
 
   // const history = useHistory()
   const [open, setOpen] = useState(false)
   const [id,setId] = useState("")
-  const handleOpen = (id) => {
+  const [trainerId,setTrainerId] = useState("")
+  const handleOpen = (id, trainerId) => {
   setOpen(true)
   setId(id)  
+  setTrainerId(trainerId)
   }
   const handleClose = () => setOpen(false)
   // const handleFillForm = () => {
@@ -63,27 +65,26 @@ function TraineeInfo() {
   const uploadWork = (e) =>{
     setWork(e.target.files[0])
   }
-  console.log(diet)
-  console.log(Work)
+  // console.log(diet)
+  // console.log(Work)
 
   const handleButton = (e) => {
     console.log(id)
     e.preventDefault();
 
     var bodyFormData = new FormData();
-    bodyFormData.append('userId', id)
-    bodyFormData.append('diet', diet); 
-    bodyFormData.append('Work', Work);
+    bodyFormData.append('trainee', id)
+    bodyFormData.append('trainer', trainerId)
+    bodyFormData.append('diet_plan', diet); 
+    bodyFormData.append('workout_plan', Work);
     
     for (var key of bodyFormData.entries()) {
       console.log(key[0] + ', ' + key[1]);
   }
-    axios({
-      method: "post",
-      url: "http://localhost:3001/send-mail",
-      body: bodyFormData,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
+    axios.post("http://amankothari.pythonanywhere.com/dietandworkout/",
+      bodyFormData,
+      {headers: { "Content-Type": "multipart/form-data", "Authorization": `Token f0ae9718f1638de46b6a6b88399531bafd97ff00` }},
+    )
       .then(function (response) {
         //handle success
         console.log(response);
@@ -108,26 +109,26 @@ function TraineeInfo() {
             </p>
         </div>
         <ul class="flex flex-col">
-        {users.map((u, id)=>{
+        {users.map((u, key)=>{
             return(
                 <div>
-                <li class="border-gray-400 flex flex-row mb-2" onClick={()=>handleOpen(u.id)}>
+                <li class="border-gray-400 flex flex-row mb-2" onClick={()=>handleOpen(u.trainee, u.trainer)}>
                 <div class="transition duration-500 shadow ease-in-out transform hover:-translate-y-1 hover:shadow-lg select-none cursor-pointer bg-white dark:bg-gray-800 rounded-md flex flex-1 items-center p-4">
                     <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">
-                        <a href={u.image} class="block relative">
-                            <img alt="profil" src={u.image} class="mx-auto object-cover rounded-full h-10 w-10 "/>
+                        <a href={u.profile} class="block relative">
+                            <img alt="profile" src={u.profile} class="mx-auto object-cover rounded-full h-10 w-10 "/>
                         </a>
                     </div>
                     <div class="flex-1 pl-1 md:mr-16">
                         <div class="font-medium dark:text-white">
-                            {u.name}
+                            {u.firstname} {u.lastname}
                         </div>
                         <div class="text-gray-600 dark:text-gray-200 text-sm">
                             {u.email}
                         </div>
                     </div>
                     <div class="text-gray-600 dark:text-gray-200 text-xs">
-                        {u.contact}
+                        {u.contact_number}
                     </div>
                     <button class="w-24 text-right flex justify-end">
                         <svg width="12" fill="currentColor" height="12" class="hover:text-gray-800 dark:hover:text-white dark:text-gray-200 text-gray-500" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
@@ -152,8 +153,8 @@ function TraineeInfo() {
       >
         <Fade in={open}>
           <Box className="card" sx={style}>
-          <a href={u.image} class="block relative">
-                            <img alt="profil" src={u.image} class="mx-auto object-cover rounded-full h-10 w-10 "/>
+          <a href={u.profile} class="block relative">
+                            <img alt="profil" src={u.profile} class="mx-auto object-cover rounded-full h-20 w-20 "/>
             </a>
             <Typography
             display="flex"
