@@ -40,9 +40,9 @@ const DashboardCard = () => {
     
     <div class="px-10 mx-auto text-center max-w-7xl">
         <h2 class="text-5xl font-bold text-blue-600">
-            {trainerData.Trainer_name}
+            Trainer-Name :<span class="text-gray-800"> {trainerData.Trainer_name}</span>
         </h2>
-        <p class="mt-3 text-lg text-gray-500">{trainerData.Gym}</p>
+        <p class="mt-3 text-lg text-gray-500">Gym Name:<span class="text-gray-800"> {trainerData.Gym}</span></p>
         <div class="grid gap-5 mt-12 lg:grid-cols-2 md:grid-cols-2">
 
             {/* <!-- Start First Plan --> */}
