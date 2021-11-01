@@ -10,6 +10,7 @@ import GymCard from './GymCard';
 import TrainerCard from './TrainerCard';
 import Select from '@mui/material/Select';
 import './SearchGym.scss';
+import { Link } from 'react-router-dom';
 
 const SearchGym = () => {
     
@@ -211,7 +212,9 @@ const SearchGym = () => {
 
                     <br/>
                     {gymData && trainerData && 
-                        <Button type="submit" variant="contained">Enroll</Button>
+                        <Link to = "/dashboard">
+                            <Button type="submit" variant="contained">Enroll</Button>
+                        </Link>
                     }
                 </form>
             </div>

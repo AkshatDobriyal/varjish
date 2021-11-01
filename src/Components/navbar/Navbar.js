@@ -1,31 +1,37 @@
 import React, { Component } from 'react';
 import './Navbar.scss';
+import {useApp} from "../../Context/AppContext";
+import { NavLink } from 'react-router-dom';
 //import photo from './profilePhoto1.jpeg'
 
-class Navbar extends Component {
-
-    render() {
-        return (
-            <div className="nav">
-                <div className="nav__header" >
-                    <div className="nav__header__logo">
-                        <p><span style={{ fontWeight: `600` }}>V</span>ARJISH</p>
-                    </div>
-                    <ul className="nav__header__list">
-                        <li className="nav__header__list__element">
-                            Home
-                        </li>
-                        <li className="nav__header__list__element">
-                            Search Gym
-                        </li>
-                        <li className="nav__header__list__element">
-                            <button className="nav__header__list__element__login">Add Gym</button>
-                        </li>
-                    </ul>
-                </div>
+function Navbar()  {
+const {loggedInData}=useApp()
+console.log(loggedInData)
+return (
+    <div className="nav">
+        <div className="nav__header" >
+            <div className="nav__header__logo">
+                <p><span style={{ fontWeight: `600` }}>V</span>ARJISH</p>
             </div>
-        );
-    }
+            <ul className="nav__header__list">
+            
+                <NavLink to = {loggedInData?.role === "TRAINER" ? "/trainerDashboard" : "/dashboard"} className="nav__header__list__element">
+                <li >
+                    Home
+                </li>
+                </NavLink>
+                <NavLink to = "/searchGym" className="nav__header__list__element">
+                <li >
+                    Search Gym
+                </li></NavLink>
+                {/* <li className="nav__header__list__element">
+                    <button className="nav__header__list__element__login">Add Gym</button>
+                </li> */}
+                
+            </ul>
+        </div>
+    </div>
+);
 }
 
 export default Navbar;
