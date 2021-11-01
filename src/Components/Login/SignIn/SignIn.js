@@ -41,8 +41,8 @@ e.preventDefault()
             }
 
             setLoggedInData(e.data.user_details)
-
-               historyRef.push('/dashboard')
+            {e.data.user_details?.role === "TRAINER" ? historyRef.push('/trainerDashboard') : historyRef.push("/dashboard")}
+               
 
 
 

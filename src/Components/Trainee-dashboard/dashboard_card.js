@@ -1,19 +1,20 @@
 import React, { useState, useEffect }  from "react";
 import {useHistory} from "react-router-dom";
 import axios  from "axios";
+import {useApp} from "../../Context/AppContext";
 
 
 const DashboardCard = () => {
 
     let historyRef = useHistory()
-    
+    const {loggedInData}=useApp()
     const [trainerData, setTrainerData] = useState([]);
     useEffect(() => {
         axios
             .get(`https://amankothari.pythonanywhere.com/myworkoutplan`,
                 {
                     headers: {
-                        Authorization: `Token b3d54ce7b96efb16e406f9521095f470ececa760`
+                        Authorization: `Token ${loggedInData.token}`
                     }
                 }
             )
