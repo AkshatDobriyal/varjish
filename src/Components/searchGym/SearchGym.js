@@ -16,17 +16,20 @@ const SearchGym = () => {
     const [gyms, setGyms] = useState();
     const [trainers, setTrainers] = useState();
 
-    const [gym, setGym] = useState();
-    const [trainer, setTrainer] = useState();
+    const [gymId, setGymId] = useState();
+    const [trainerId, setTrainerId] = useState();
+
+    const [gymData, setGymData] = useState();
+    const [trainerData, setTrainerData] = useState();
 
     useEffect(() => {
         axios
-            .get(``,
-                {
+            .get(`https://amankothari.pythonanywhere.com/gym/`,
+                /*{
                     headers: {
                         Authorization: `Token ${token}`
                     }
-                }
+                }*/
             )
             .then((res) => {
                 if (res) {
@@ -44,11 +47,11 @@ const SearchGym = () => {
     useEffect(() => {
         axios
             .get(``,
-                {
+                /*{
                     headers: {
                         Authorization: `Token ${token}`
                     }
-                }
+                }*/
             )
             .then((res) => {
                 if (res) {
@@ -61,7 +64,7 @@ const SearchGym = () => {
 
         console.log(trainers);
 
-    }, [gym]);
+    }, [gymId]);
 
     //setGyms({ label: 'The Shawshank Redemption', year: 1994 })
 
@@ -73,45 +76,53 @@ const SearchGym = () => {
     return(
         <>
             <div className="search">
+                <br/>
                 <div className="search__head">
                     <h2>Search your dream gym</h2>
                 </div>
+                <br/>
                 <form className="search__form" onSubmit={handleSubmit}>
-                    <div className="search__form__dropdown">
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            value={gym}
-                            onChange={(e) => {setGym(e.target.value)}}
-                            options={gyms}
-                            sx={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="Movie" />}
-                        />
-                    </div>
-                    {gym && 
+                    {gyms && 
                         <div className="search__form__dropdown">
-                            <Card gym={gym}/>
+                            <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                value={gymId}
+                                onChange={(e) => {setGymId(e.target.value)}}
+                                options={gyms.map((gym) => gym.name)}
+                                sx={{ width: 300 }}
+                                renderInput={(params) => <TextField {...params} label="Select Gym" />}
+                            />
                         </div>
                     }
+                    <br/>   
+                    {gymId && 
+                        <div className="search__form__dropdown">
+                            <Card gym={gymData}/>
+                        </div>
+                    }
+                    <br/>
                     {trainers &&
                         <div className="search__form__dropdown">
                             <Autocomplete
                                 disablePortal
                                 id="combo-box-demo"
-                                value={trainer}
-                                onChange={(e) => {setTrainer(e.target.value)}}
-                                options={trainers}
+                                value={trainerId}
+                                onChange={(e) => {setTrainerId(e.target.value)}}
+                                options={trainers.map((trainer) => trainer.name)}
                                 sx={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params} label="Movie" />}
+                                renderInput={(params) => <TextField {...params} label="Select Trainer" />}
                             />
                         </div>
                     }
-                    {
-                    trainer &&
+                    <br/>
+                    {trainerId &&
                         <div className="search__form__dropdown">
-                            <Card trainer={trainer} />
+                            <Card trainer={trainerData} />
                         </div>
                     }
+
+                    <br/>
                     
                     <Button variant="contained">Enroll</Button>
                 </form>
