@@ -6,10 +6,14 @@ import axios from 'axios';
 //import { useSelect } from 'react-select-search';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
 import GymCard from './GymCard';
 import TrainerCard from './TrainerCard';
-import Select from '@mui/material/Select';
 import './SearchGym.scss';
 import { Link } from 'react-router-dom';
 import {useApp} from "../../Context/AppContext";
@@ -160,27 +164,29 @@ const SearchGym = () => {
                 <form className="search__form" onSubmit={handleSubmit}>
                     {gyms && 
                         <div className="search__form__dropdown">
-                            <select
-                                name="gym"
-                                label="gym"
-                                id="gym"
-                                onChange={(e) => {
-                                    setGymId(e.target.value);
-                                    console.log(e.target.value)
-                                }}
-                            >
-                                <option value="Choose Gym">
-                                    Choose
-                                </option>
-
-                                {gyms.map((gym) => {
-                                    return (
-                                        <option key={gym.id} value={gym.id}>
-                                            {gym.name}
-                                        </option>
-                                    );
-                                })}
-                            </select>
+                            <Box sx={{ minWidth: 220 }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Select Gym</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={gymId}
+                                        label="Age"
+                                        onChange={(e) => {
+                                            setGymId(e.target.value);
+                                            console.log(e.target.value)
+                                        }}
+                                    >
+                                        {gyms.map((gym) => {
+                                            return (
+                                                <MenuItem key={gym.id} value={gym.id}>
+                                                    {gym.name}
+                                                </MenuItem>
+                                            );
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            </Box>
                         </div>
                     }
                     <br/>   
@@ -192,27 +198,29 @@ const SearchGym = () => {
                     <br/>
                     {trainers &&
                         <div className="search__form__dropdown">
-                            <select
-                                name="trainer"
-                                label="trainer"
-                                id="trainer"
-                                onChange={(e) => {
-                                    setTrainerId(e.target.value);
-                                    console.log(e.target.value)
-                                }}
-                            >
-                                <option value="Choose Trainer">
-                                    Choose
-                                </option>
-
-                                {trainers.map((trainer) => {
-                                    return (
-                                        <option key={trainer.trainer} value={trainer.trainer}>
-                                            {trainer.firstname} {trainer.lastname}
-                                        </option>
-                                    );
-                                })}
-                            </select>
+                            <Box sx={{ minWidth: 220 }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Select Trainer</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={trainerId}
+                                        label="Age"
+                                        onChange={(e) => {
+                                            setTrainerId(e.target.value);
+                                            console.log(e.target.value)
+                                        }}
+                                    >
+                                        {trainers.map((trainer) => {
+                                            return (
+                                                <MenuItem key={trainer.trainer} value={trainer.trainer}>
+                                                    {trainer.firstname} {trainer.lastname}
+                                                </MenuItem>
+                                            );
+                                        })}
+                                    </Select>
+                                </FormControl>
+                            </Box>
                         </div>
                     }
                     <br/>
@@ -225,8 +233,8 @@ const SearchGym = () => {
                     <br/>
                     {gymData && trainerData && role==="TRAINEE" &&
                         <Button type="submit" variant="contained">Enroll</Button>
-                      
                     }
+                    <br/>
                 </form>
             </div>
         </>
