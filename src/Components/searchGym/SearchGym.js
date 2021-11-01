@@ -78,6 +78,7 @@ const SearchGym = () => {
             <div className="search">
                 <br/>
                 <div className="search__head">
+                <h1>{trainerId}</h1>
                     <h2>Search your dream gym</h2>
                 </div>
                 <br/>
