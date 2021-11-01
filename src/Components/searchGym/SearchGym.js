@@ -11,10 +11,11 @@ import TrainerCard from './TrainerCard';
 import Select from '@mui/material/Select';
 import './SearchGym.scss';
 import { Link } from 'react-router-dom';
+import {useApp} from "../../Context/AppContext";
 
 const SearchGym = () => {
-    
-    let token = localStorage.getItem("token");
+    const {loggedInData}=useApp()
+    console.log(loggedInData)
 
     const [gyms, setGyms] = useState([]);
     const [trainers, setTrainers] = useState([]);
@@ -36,7 +37,7 @@ const SearchGym = () => {
             .post("https://amankothari.pythonanywhere.com/trainee/", sendData,
                 {
                     headers: {
-                        Authorization: `Token f0ae9718f1638de46b6a6b88399531bafd97ff00`
+                        Authorization: `Token ${loggedInData.token}`
                     }
                 })
             .then((res) => {
@@ -52,7 +53,7 @@ const SearchGym = () => {
             .get(`https://amankothari.pythonanywhere.com/gym/`,
                 {
                     headers: {
-                        Authorization: `Token f0ae9718f1638de46b6a6b88399531bafd97ff00`
+                        Authorization: `Token ${loggedInData.token}`
                     }
                 }
             )
@@ -76,7 +77,7 @@ const SearchGym = () => {
             .get(`https://amankothari.pythonanywhere.com/gym/${gymId}/`,
             {
                 headers: {
-                    Authorization: `Token f0ae9718f1638de46b6a6b88399531bafd97ff00`
+                    Authorization: `Token ${loggedInData.token}`
                 }
             }
         )
@@ -99,7 +100,7 @@ const SearchGym = () => {
             .get(`http://amankothari.pythonanywhere.com/trainerbygym/${gymId}/`,
                 {
                     headers: {
-                        Authorization: `Token f0ae9718f1638de46b6a6b88399531bafd97ff00`
+                        Authorization: `Token ${loggedInData.token}`
                     }
                 }
             )
@@ -120,7 +121,7 @@ const SearchGym = () => {
             .get(`https://amankothari.pythonanywhere.com/trainer/${trainerId}/`,
                 {
                     headers: {
-                        Authorization: `Token f0ae9718f1638de46b6a6b88399531bafd97ff00`
+                        Authorization: `Token ${loggedInData.token}`
                     }
                 }
         )
@@ -211,7 +212,7 @@ const SearchGym = () => {
                     }
 
                     <br/>
-                    {gymData && trainerData && 
+                    {gymData && trainerData && loggedInData?.role === "TRAINEE" &&
                         <Link to = "/dashboard">
                             <Button type="submit" variant="contained">Enroll</Button>
                         </Link>
