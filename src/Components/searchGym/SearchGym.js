@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 //import { Link } from 'react-router-dom';
 import axios from 'axios';
 //import SelectSearch from 'react-select-search';
@@ -12,10 +13,13 @@ import Select from '@mui/material/Select';
 import './SearchGym.scss';
 import { Link } from 'react-router-dom';
 import {useApp} from "../../Context/AppContext";
+import { getToken, getRole } from '../../services/localStorageServices'
 
 const SearchGym = () => {
     const {loggedInData}=useApp()
     console.log(loggedInData)
+
+    const history = useHistory()
 
     const [gyms, setGyms] = useState([]);
     const [trainers, setTrainers] = useState([]);
@@ -26,6 +30,9 @@ const SearchGym = () => {
     const [gymData, setGymData] = useState({});
     const [trainerData, setTrainerData] = useState({});
 
+    const token =  getToken();
+    console.log("Token"+ localStorage.getItem('token'))
+
     const handleSubmit = (e) => {
         e.preventDefault();
         
@@ -33,14 +40,16 @@ const SearchGym = () => {
             trainer: trainerId,
             gym: gymId,
         }
+        console.log("hereeeeee", sendData)
         axios
             .post("https://amankothari.pythonanywhere.com/trainee/", sendData,
                 {
                     headers: {
-                        Authorization: `Token ${loggedInData.token}`
+                        Authorization: `Token ${getToken()}`
                     }
                 })
             .then((res) => {
+                history.push('/dashboard')
                 console.log('api response', res)
             })
             .catch((err) => {
@@ -53,7 +62,7 @@ const SearchGym = () => {
             .get(`https://amankothari.pythonanywhere.com/gym/`,
                 {
                     headers: {
-                        Authorization: `Token ${loggedInData.token}`
+                        Authorization: `Token ${getToken()}`
                     }
                 }
             )
@@ -77,7 +86,7 @@ const SearchGym = () => {
             .get(`https://amankothari.pythonanywhere.com/gym/${gymId}/`,
             {
                 headers: {
-                    Authorization: `Token ${loggedInData.token}`
+                    Authorization: `Token ${getToken()}`
                 }
             }
         )
@@ -100,7 +109,7 @@ const SearchGym = () => {
             .get(`http://amankothari.pythonanywhere.com/trainerbygym/${gymId}/`,
                 {
                     headers: {
-                        Authorization: `Token ${loggedInData.token}`
+                        Authorization: `Token ${getToken()}`
                     }
                 }
             )
@@ -121,7 +130,7 @@ const SearchGym = () => {
             .get(`https://amankothari.pythonanywhere.com/trainer/${trainerId}/`,
                 {
                     headers: {
-                        Authorization: `Token ${loggedInData.token}`
+                        Authorization: `Token ${getToken()}`
                     }
                 }
         )
@@ -137,12 +146,14 @@ const SearchGym = () => {
     }, [trainerId]);
     console.log(trainerData);
 
+    const role = getRole()
+  
+
     return(
         <>
             <div className="search">
                 <br/>
                 <div className="search__head">
-                <h1>{trainerId}</h1>
                     <h2>Search your dream gym</h2>
                 </div>
                 <br/>
@@ -212,10 +223,9 @@ const SearchGym = () => {
                     }
 
                     <br/>
-                    {gymData && trainerData && loggedInData?.role === "TRAINEE" &&
-                        <Link to = "/dashboard">
-                            <Button type="submit" variant="contained">Enroll</Button>
-                        </Link>
+                    {gymData && trainerData && role==="TRAINEE" &&
+                        <Button type="submit" variant="contained">Enroll</Button>
+                      
                     }
                 </form>
             </div>

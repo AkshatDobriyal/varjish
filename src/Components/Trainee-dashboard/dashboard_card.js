@@ -2,7 +2,7 @@ import React, { useState, useEffect }  from "react";
 import {useHistory} from "react-router-dom";
 import axios  from "axios";
 import {useApp} from "../../Context/AppContext";
-
+import {getToken} from '../../services/localStorageServices'
 
 const DashboardCard = () => {
 
@@ -14,7 +14,7 @@ const DashboardCard = () => {
             .get(`https://amankothari.pythonanywhere.com/myworkoutplan`,
                 {
                     headers: {
-                        Authorization: `Token ${loggedInData.token}`
+                        Authorization: `Token ${getToken()}`
                     }
                 }
             )

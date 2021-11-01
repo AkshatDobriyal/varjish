@@ -2,6 +2,7 @@ import React, {useState}  from "react";
 import {useHistory} from "react-router-dom";
 import img from '../../../Images/dumbbell.png'
 import axios from "axios";
+import { setSession } from '../../../services/localStorageServices'
 import {useApp} from "../../../Context/AppContext";
 
 function SignIn() {
@@ -30,7 +31,7 @@ function SignIn() {
 
 
     const onLoginClick=(e)=>{
-e.preventDefault()
+        e.preventDefault()
         console.log(data)
         axios.post("https://amankothari.pythonanywhere.com/login/",data).then((e)=>{
 
@@ -39,11 +40,13 @@ e.preventDefault()
                 Token:e.data.Token,
                 role:e.data.user_details.role
             }
+            console.log(e.data.user_details.role)
+            setSession(e.data.Token, e.data.user_details.role)
 
             setLoggedInData(e.data.user_details)
             {e.data.user_details?.role === "TRAINER" ? historyRef.push('/trainerDashboard') : historyRef.push("/dashboard")}
                
-
+            
 
 
 

@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import {useApp} from "../../Context/AppContext";
+import {getToken} from '../../services/localStorageServices'
 
 
 const style = {
@@ -29,7 +30,7 @@ function TraineeInfo() {
 
   useEffect(() => {
     axios
-    .get('http://amankothari.pythonanywhere.com/mytrainees/', {headers : {"Authorization": `Token ${loggedInData.token}`}})
+    .get('http://amankothari.pythonanywhere.com/mytrainees/', {headers : {"Authorization": `Token ${getToken()}`}})
     .then((res) => {
       console.log('get threads 🚀', res)
       setUsers(res.data)
@@ -86,7 +87,7 @@ console.log(users)
   }
     axios.post("http://amankothari.pythonanywhere.com/dietandworkout/",
       bodyFormData,
-      {headers: { "Content-Type": "multipart/form-data", "Authorization": `Token ${loggedInData.token}` }},
+      {headers: { "Content-Type": "multipart/form-data", "Authorization": `Token ${getToken()}` }},
     )
       .then(function (response) {
         //handle success
