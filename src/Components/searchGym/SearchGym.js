@@ -6,30 +6,54 @@ import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
-import Card from './Card';
+import GymCard from './GymCard';
+import TrainerCard from './TrainerCard';
+import Select from '@mui/material/Select';
 import './SearchGym.scss';
 
 const SearchGym = () => {
     
     let token = localStorage.getItem("token");
 
-    const [gyms, setGyms] = useState();
-    const [trainers, setTrainers] = useState();
+    const [gyms, setGyms] = useState([]);
+    const [trainers, setTrainers] = useState([]);
 
-    const [gymId, setGymId] = useState();
-    const [trainerId, setTrainerId] = useState();
+    const [gymId, setGymId] = useState('');
+    const [trainerId, setTrainerId] = useState('');
 
-    const [gymData, setGymData] = useState();
-    const [trainerData, setTrainerData] = useState();
+    const [gymData, setGymData] = useState({});
+    const [trainerData, setTrainerData] = useState({});
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        let sendData = {
+            trainer: trainerId,
+            gym: gymId,
+        }
+        axios
+            .post("https://amankothari.pythonanywhere.com/trainee/", sendData,
+                {
+                    headers: {
+                        Authorization: `Token f0ae9718f1638de46b6a6b88399531bafd97ff00`
+                    }
+                })
+            .then((res) => {
+                console.log('api response', res)
+            })
+            .catch((err) => {
+                console.log(err.response)
+            })
+    }
 
     useEffect(() => {
         axios
             .get(`https://amankothari.pythonanywhere.com/gym/`,
-                /*{
+                {
                     headers: {
-                        Authorization: `Token ${token}`
+                        Authorization: `Token f0ae9718f1638de46b6a6b88399531bafd97ff00`
                     }
-                }*/
+                }
             )
             .then((res) => {
                 if (res) {
@@ -40,18 +64,43 @@ const SearchGym = () => {
                 console.log(err)
             })
 
-        console.log(gyms);
 
     }, []);
+    console.log(gyms);
+
+    console.log(gymId);
+    useEffect(() => {
+        
+        axios
+            .get(`https://amankothari.pythonanywhere.com/gym/${gymId}/`,
+            {
+                headers: {
+                    Authorization: `Token f0ae9718f1638de46b6a6b88399531bafd97ff00`
+                }
+            }
+        )
+            .then((res) => {
+                if (res) {
+                    setGymData(res.data)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+        console.log(gymData);
+
+    }, [gymId]);
 
     useEffect(() => {
+        console.log(gymId);
         axios
-            .get(``,
-                /*{
+            .get(`http://amankothari.pythonanywhere.com/trainerbygym/${gymId}/`,
+                {
                     headers: {
-                        Authorization: `Token ${token}`
+                        Authorization: `Token f0ae9718f1638de46b6a6b88399531bafd97ff00`
                     }
-                }*/
+                }
             )
             .then((res) => {
                 if (res) {
@@ -62,16 +111,29 @@ const SearchGym = () => {
                 console.log(err)
             })
 
-        console.log(trainers);
-
     }, [gymId]);
+    console.log(trainers);
 
-    //setGyms({ label: 'The Shawshank Redemption', year: 1994 })
+    useEffect(() => {
+        axios
+            .get(`https://amankothari.pythonanywhere.com/trainer/${trainerId}/`,
+                {
+                    headers: {
+                        Authorization: `Token f0ae9718f1638de46b6a6b88399531bafd97ff00`
+                    }
+                }
+        )
+            .then((res) => {
+                if (res) {
+                    setTrainerData(res.data)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
-    }
+    }, [trainerId]);
+    console.log(trainerData);
 
     return(
         <>
@@ -85,47 +147,72 @@ const SearchGym = () => {
                 <form className="search__form" onSubmit={handleSubmit}>
                     {gyms && 
                         <div className="search__form__dropdown">
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                value={gymId}
-                                onChange={(e) => {setGymId(e.target.value)}}
-                                options={gyms.map((gym) => gym.name)}
-                                sx={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params} label="Select Gym" />}
-                            />
+                            <select
+                                name="gym"
+                                label="gym"
+                                id="gym"
+                                onChange={(e) => {
+                                    setGymId(e.target.value);
+                                    console.log(e.target.value)
+                                }}
+                            >
+                                <option value="Choose Gym">
+                                    Choose
+                                </option>
+
+                                {gyms.map((gym) => {
+                                    return (
+                                        <option key={gym.id} value={gym.id}>
+                                            {gym.name}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                         </div>
                     }
                     <br/>   
                     {gymId && 
                         <div className="search__form__dropdown">
-                            <Card gym={gymData}/>
+                            <GymCard gym={gymData}/>
                         </div>
                     }
                     <br/>
                     {trainers &&
                         <div className="search__form__dropdown">
-                            <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                value={trainerId}
-                                onChange={(e) => {setTrainerId(e.target.value)}}
-                                options={trainers.map((trainer) => trainer.name)}
-                                sx={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params} label="Select Trainer" />}
-                            />
+                            <select
+                                name="trainer"
+                                label="trainer"
+                                id="trainer"
+                                onChange={(e) => {
+                                    setTrainerId(e.target.value);
+                                    console.log(e.target.value)
+                                }}
+                            >
+                                <option value="Choose Trainer">
+                                    Choose
+                                </option>
+
+                                {trainers.map((trainer) => {
+                                    return (
+                                        <option key={trainer.trainer} value={trainer.trainer}>
+                                            {trainer.firstname} {trainer.lastname}
+                                        </option>
+                                    );
+                                })}
+                            </select>
                         </div>
                     }
                     <br/>
                     {trainerId &&
                         <div className="search__form__dropdown">
-                            <Card trainer={trainerData} />
+                            <TrainerCard trainer={trainerData} />
                         </div>
                     }
 
                     <br/>
-                    
-                    <Button variant="contained">Enroll</Button>
+                    {gymData && trainerData && 
+                        <Button type="submit" variant="contained">Enroll</Button>
+                    }
                 </form>
             </div>
         </>
