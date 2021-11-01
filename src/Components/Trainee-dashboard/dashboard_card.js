@@ -1,27 +1,48 @@
-import React, {useState}  from "react";
+import React, { useState, useEffect }  from "react";
 import {useHistory} from "react-router-dom";
-import {useApp} from "../../Context/AppContext";
+import axios  from "axios";
 
-function DashboardCard() {
 
-    const {loggedInData}=useApp()
+const DashboardCard = () => {
 
     let historyRef = useHistory()
-
-
-
-    console.log(loggedInData)
-    return (
+    
+    const [trainerData, setTrainerData] = useState([]);
+    useEffect(() => {
+        axios
+            .get(`https://amankothari.pythonanywhere.com/myworkoutplan`,
+                {
+                    headers: {
+                        Authorization: `Token b3d54ce7b96efb16e406f9521095f470ececa760`
+                    }
+                }
+            )
+            .then((res) => {
+                if (res) {
+                    setTrainerData(res.data)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
 
         
 
+    }, []);
+    console.log(trainerData);
+    
+    return (
+        
+        
+        // <!-- component -->
+// <!-- Pricing section -->
 <section class="w-full pt-16 pb-20 bg-gray-50">
     
     <div class="px-10 mx-auto text-center max-w-7xl">
         <h2 class="text-5xl font-bold text-blue-600">
-            Gym <span class="text-gray-800">Trainer</span>
+            Trainer-Name :<span class="text-gray-800"> {trainerData.Trainer_name}</span>
         </h2>
-        <p class="mt-3 text-lg text-gray-500">Personalised Plans to work on your health</p>
+        <p class="mt-3 text-lg text-gray-500">Gym Name:<span class="text-gray-800"> {trainerData.Gym}</span></p>
         <div class="grid gap-5 mt-12 lg:grid-cols-2 md:grid-cols-2">
 
             {/* <!-- Start First Plan --> */}
@@ -33,30 +54,13 @@ function DashboardCard() {
                     {/* <svg class="w-16 h-16 text-green-400 rounded-2xl" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><rect x="0" y="0" width="150" height="150" rx="15"></rect></defs><g fill="none" fill-rule="evenodd"><mask fill="#fff"><use xlink:href="#plan1"></use></mask><use fill="currentColor" xlink:href="#plan1"></use><circle fill-opacity=".3" fill="#FFF" mask="url(#plan1)" cx="125" cy="25" r="50"></circle><path fill-opacity=".3" fill="#FFF" mask="url(#plan1)" d="M-33 83H67v100H-33z"></path></g></svg> */}
                     <div class="relative flex flex-col items-start">
                         <h3 class="text-xl font-bold">  Diet Chart</h3>
-                        <p class="tracking-tight text-gray-500">
-                            <span class="text-sm transform inline-block -translate-y-2.5 relative">cal</span>
-                            <span class="text-3xl font-bold text-gray-800">500</span>
-                            <span class="text-sm -translate-y-0.5 inline-block transform">/ day</span>
-                        </p>
+                        
                     </div>
                 </div>
 
-                <ul class="relative py-12 space-y-3">
-                    <li class="flex items-center space-x-2 text-sm font-medium text-gray-500">
-                        <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span>1st Feature</span>
-                    </li>
-                    <li class="flex items-center space-x-2 text-sm font-medium text-gray-500">
-                        <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span>2nd Feature</span>
-                    </li>
-                    <li class="flex items-center space-x-2 text-sm font-medium text-gray-500">
-                        <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span>3rd Feature</span>
-                    </li>
-                </ul>
+                
 
-                <a href="#_" class="relative flex items-center justify-center w-full px-5 py-5 text-lg font-medium text-white rounded-xl group">
+                <a href={trainerData.diet_plan} class="relative flex items-center justify-center w-full px-5 py-5 text-lg font-medium text-white rounded-xl group">
                     <span class="w-full h-full absolute inset-0 transform translate-y-1.5 translate-x-1.5 group-hover:translate-y-0 group-hover:translate-x-0 transition-all ease-out duration-200 rounded-xl bg-green-500"></span>
                     <span class="absolute inset-0 w-full h-full border-2 border-gray-900 rounded-xl"></span>
                     <span class="relative">Download Chart</span>
@@ -75,34 +79,11 @@ function DashboardCard() {
                     {/* <svg class="w-16 h-16 text-indigo-400 rounded-2xl" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><rect x="0" y="0" width="150" height="150" rx="15"></rect></defs><g fill="none" fill-rule="evenodd"><mask fill="#fff"><use xlink:href="#plan1"></use></mask><use fill="currentColor" xlink:href="#plan1"></use><circle fill-opacity=".3" fill="#FFF" mask="url(#plan1)" cx="125" cy="25" r="50"></circle><path fill-opacity=".3" fill="#FFF" mask="url(#plan1)" d="M-33 83H67v100H-33z"></path></g></svg> */}
                     <div class="relative flex flex-col items-start">
                         <h3 class="text-xl font-bold">Workout Plan</h3>
-                        <p class="tracking-tight text-gray-500">
-                            <span class="text-sm transform inline-block -translate-y-2.5 relative">hr</span>
-                            <span class="text-3xl font-bold text-gray-800">2</span>
-                            <span class="text-sm -translate-y-0.5 inline-block transform">/ day</span>
-                        </p>
+                        
                     </div>
                 </div>
 
-                <ul class="relative py-12 space-y-3">
-                    <li class="flex items-center space-x-2 text-sm font-medium text-gray-500">
-                        <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span>Dedicated Design Team</span>
-                    </li>
-                    <li class="flex items-center space-x-2 text-sm font-medium text-gray-500">
-                        <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span>Custom Design &amp; Features</span>
-                    </li>
-                    <li class="flex items-center space-x-2 text-sm font-medium text-gray-500">
-                        <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span>Access to 200+ Components</span>
-                    </li>
-                    <li class="flex items-center space-x-2 text-sm font-medium text-gray-500">
-                        <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span>Priority Email &amp; Chat Support</span>
-                    </li>
-                </ul>
-
-                <a href="#_" class="relative flex items-center justify-center w-full px-5 py-5 text-lg font-medium text-white rounded-xl group">
+                <a href={trainerData.workout_plan} class="relative flex items-center justify-center w-full px-5 py-5 text-lg font-medium text-white rounded-xl group">
                     <span class="w-full h-full absolute inset-0 transform translate-y-1.5 translate-x-1.5 group-hover:translate-y-0 group-hover:translate-x-0 transition-all ease-out duration-200 rounded-xl bg-blue-600"></span>
                     <span class="absolute inset-0 w-full h-full border-2 border-gray-900 rounded-xl"></span>
                     <span class="relative">Download Plan</span>
