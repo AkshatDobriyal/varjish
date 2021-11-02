@@ -57,17 +57,19 @@ function SignUp() {
         axios
             .post(
                 "https://amankothari.pythonanywhere.com/signup/",
-                {
-                    bodyFormData
-                },
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                },
+                bodyFormData
+                // {
+                //     bodyFormData
+                // },
+                // {
+                //     headers: {
+                //         "Content-Type": "multipart/form-data",
+                //     },
+                // },
             )
             .then(function (response) {
                 //handle success
+                historyRef.push("/");
                 console.log(response);
 
             })
