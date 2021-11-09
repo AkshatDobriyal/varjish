@@ -10,7 +10,7 @@ function SignUp() {
 
     var bodyFormData = new FormData();
     let historyRef = useHistory()
-    const [photo,setPhoto] = useState(null)
+
     const [data, setData] = useState(
         {
             firstname:'',
@@ -30,9 +30,7 @@ function SignUp() {
             [e.target.id]: e.target.value,
         }));
     }
-    const uploadPhoto = (e) =>{
-        setPhoto(e.target.files[0])
-    }
+
 
     const onRegisterClick=(e)=>{
         e.preventDefault()
@@ -47,7 +45,7 @@ function SignUp() {
 
         Object.keys(data).forEach((key)=>{bodyFormData.append(key,data[key])})
 
-        bodyFormData.append('profile', photo);
+
 
         console.log()
 
@@ -218,29 +216,7 @@ function SignUp() {
                                        placeholder="Contact no." onChange={onChange}/>
                             </div>
                         </div>
-                        <div className="flex flex-col mb-2">
-                            <div className="flex relative ">
 
-                                <span>
-
-                                </span>
-                                <Button
-
-                                    className='bg-purple-500'
-                                    variant="contained"
-                                    component="label"
-                                    style={{justifyContent: 'center'}}
-
-                                >
-                                    upload photo
-                                    <input
-                                        type="file"
-                                        name="Work"
-                                        onChange={(e)=>uploadPhoto(e)}
-                                        hidden
-                                    /></Button>
-                            </div>
-                        </div>
 
                         <div className="flex w-full ">
                             <button type="submit" onClick={onRegisterClick}
