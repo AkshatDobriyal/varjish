@@ -20,7 +20,7 @@ return (
                     Home
                 </li>
                 </NavLink>
-                <NavLink to = "/searchGym" className="nav__header__list__element">
+                <NavLink to = "/searchGym" className="nav__header__list__element" id="search_gym">
                 <li >
                     Search Gym
                 </li></NavLink>

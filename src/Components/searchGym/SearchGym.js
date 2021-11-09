@@ -155,7 +155,7 @@ const SearchGym = () => {
 
     return(
         <>
-            <div className="search">
+            <div className="search" id="search">
                 <br/>
                 <div className="search__head">
                     <h2>Search your dream gym</h2>
@@ -163,7 +163,7 @@ const SearchGym = () => {
                 <br/>
                 <form className="search__form" onSubmit={handleSubmit}>
                     {gyms && 
-                        <div className="search__form__dropdown">
+                        <div className="search__form__dropdown" id="search__form__dropdown">
                             <Box sx={{ minWidth: 220 }}>
                                 <FormControl fullWidth>
                                     <InputLabel id="demo-simple-select-label">Select Gym</InputLabel>
@@ -179,7 +179,7 @@ const SearchGym = () => {
                                     >
                                         {gyms.map((gym) => {
                                             return (
-                                                <MenuItem key={gym.id} value={gym.id}>
+                                                <MenuItem key={gym.id} value={gym.id} id="selected_gym">
                                                     {gym.name}
                                                 </MenuItem>
                                             );
@@ -203,7 +203,7 @@ const SearchGym = () => {
                                     <InputLabel id="demo-simple-select-label">Select Trainer</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
+                                        id="demo-simple-select-2"
                                         value={trainerId}
                                         label="Age"
                                         onChange={(e) => {
@@ -213,7 +213,7 @@ const SearchGym = () => {
                                     >
                                         {trainers.map((trainer) => {
                                             return (
-                                                <MenuItem key={trainer.trainer} value={trainer.trainer}>
+                                                <MenuItem key={trainer.trainer} value={trainer.trainer} id="selected_trainer">
                                                     {trainer.firstname} {trainer.lastname}
                                                 </MenuItem>
                                             );
