@@ -6,8 +6,6 @@ import Button from '@mui/material/Button'
 import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
 import axios from 'axios'
-import { useHistory } from 'react-router-dom'
-import {useApp} from "../../Context/AppContext";
 import {getToken} from '../../services/localStorageServices'
 
 
@@ -26,7 +24,7 @@ const style = {
 function TraineeInfo() {
 
     const [users, setUsers] = useState([])
-    const {loggedInData}=useApp()
+    
 
   useEffect(() => {
     axios

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Navbar.scss';
 import {useApp} from "../../Context/AppContext";
 import { NavLink } from 'react-router-dom';
+import {getRole} from '../../services/localStorageServices'
 //import photo from './profilePhoto1.jpeg'
 
 function Navbar()  {
@@ -15,7 +16,7 @@ return (
             </div>
             <ul className="nav__header__list">
             
-                <NavLink to = {loggedInData?.role === "TRAINER" ? "/trainerDashboard" : "/dashboard"} className="nav__header__list__element">
+                <NavLink to = {getRole() === "TRAINER" ? "/trainerDashboard" : "/dashboard"} className="nav__header__list__element">
                 <li >
                     Home
                 </li>
