@@ -110,7 +110,7 @@ const SearchGym = () => {
     useEffect(() => {
         console.log(gymId);
         axios
-            .get(`http://amankothari.pythonanywhere.com/trainerbygym/${gymId}/`,
+            .get(`https://amankothari.pythonanywhere.com/trainerbygym/${gymId}/`,
                 {
                     headers: {
                         Authorization: `Token ${getToken()}`

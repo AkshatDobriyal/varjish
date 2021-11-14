@@ -11,6 +11,13 @@ function useApp() {
 
 function AppProvider({children}) {
 
+
+
+    useEffect(()=>{
+        setLoggedInData(JSON.parse(localStorage.getItem('userLoggedInData')))
+
+    },[])
+
     const[localStorageData,SetLocalStorageData] = useState(null)
     const[loggedInData,setLoggedInData] = useState(null)
 
