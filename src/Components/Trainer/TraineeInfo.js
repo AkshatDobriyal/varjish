@@ -25,7 +25,7 @@ const style = {
 
 function TraineeInfo() {
 
-    const [users, setUsers] = useState([])
+    const [users, setUsers] = useState(null)
     const {loggedInData}=useApp()
 
   useEffect(() => {
@@ -92,6 +92,9 @@ console.log(users)
       .then(function (response) {
         //handle success
         console.log(response);
+        alert('uploaded')
+        setOpen(false)
+
         setDiet(null)
         setWork(null)
       })
@@ -103,153 +106,175 @@ console.log(users)
   }
 
     return (
-        <div class="container flex flex-col mx-auto w-full items-center justify-center">
-        <div class="px-4 py-5 sm:px-6 w-full border dark:bg-gray-800 bg-white shadow mb-2 rounded-md">
-            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">
-                Trainees
-            </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-200">
-                Details and informations about Trainees.
-            </p>
+
+        <div>
+            { users ? (<div id='user_Data'>
+                <div className="container flex flex-col mx-auto w-full items-center justify-center">
+                    <div className="px-4 py-5 sm:px-6 w-full border dark:bg-gray-800 bg-white shadow mb-2 rounded-md">
+                        <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white">
+                            Trainees
+                        </h3>
+                        <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-200">
+                            Details and informations about Trainees.
+                        </p>
+                    </div>
+                    <ul className="flex flex-col">
+                        {users.map((u, key) => {
+                            return (
+                                <div>
+                                    <li className="border-gray-400 flex flex-row mb-2 " id='list_1'
+                                        onClick={() => handleOpen(u.trainee, u.trainer)}>
+                                        <div
+                                            className="transition duration-500 shadow ease-in-out transform hover:-translate-y-1 hover:shadow-lg select-none cursor-pointer bg-white dark:bg-gray-800 rounded-md flex flex-1 items-center p-4">
+                                            <div className="flex flex-col w-10 h-10 justify-center items-center mr-4">
+                                                <a href={u.profile} className="block relative">
+                                                    <img alt="profile" src={u.profile}
+                                                         className="mx-auto object-cover rounded-full h-10 w-10 "/>
+                                                </a>
+                                            </div>
+                                            <div className="flex-1 pl-1 md:mr-16">
+                                                <div className="font-medium dark:text-white">
+                                                    {u.firstname} {u.lastname}
+                                                </div>
+                                                <div className="text-gray-600 dark:text-gray-200 text-sm">
+                                                    {u.email}
+                                                </div>
+                                            </div>
+                                            <div className="text-gray-600 dark:text-gray-200 text-xs">
+                                                {u.contact_number}
+                                            </div>
+                                            <button className="w-24 text-right flex justify-end">
+                                                <svg width="12" fill="currentColor" height="12"
+                                                     className="hover:text-gray-800 dark:hover:text-white dark:text-gray-200 text-gray-500"
+                                                     viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </li>
+
+                                    <div>
+                                        <Modal
+                                            aria-labelledby="transition-modal-title"
+                                            aria-describedby="transition-modal-description"
+                                            open={open}
+                                            onClose={handleClose}
+                                            closeAfterTransition
+                                            BackdropComponent={Backdrop}
+                                            BackdropProps={{
+                                                timeout: 500,
+                                            }}
+                                        >
+                                            <Fade in={open}>
+                                                <Box className="card" sx={style}>
+                                                    <a href={u.profile} className="block relative">
+                                                        <img alt="profile" src={u.profile}
+                                                             className="mx-auto object-cover rounded-full h-20 w-20 "/>
+                                                    </a>
+                                                    <Typography
+                                                        display="flex"
+                                                        justifyContent="center"
+                                                        alignItems="center"
+
+                                                        className="card-header"
+                                                        id="transition-modal-title"
+                                                        variant="h6"
+                                                        component="h2"
+                                                        mx={{align: "center"}}
+                                                    >
+                                                        {u.name}
+                                                    </Typography>
+                                                    <Typography
+                                                        display="flex"
+                                                        justifyContent="center"
+                                                        alignItems="center"
+                                                        className="card-body"
+                                                        id="transition-modal-description"
+                                                        sx={{mt: 2, mb: 2}}
+                                                    >
+                                                        {u.contact}
+                                                    </Typography>
+                                                    <Typography
+                                                        display="flex"
+                                                        justifyContent="center"
+                                                        alignItems="center"
+                                                        className="card-body"
+                                                        id="transition-modal-description"
+                                                        sx={{mt: 2, mb: 2}}
+                                                    >
+                                                        {u.email}
+                                                    </Typography>
+
+
+                                                    <Box
+                                                        display="flex"
+                                                        justifyContent="center"
+                                                        alignItems="center"
+                                                        className="card-body"
+                                                        id="transition-modal-description"
+                                                        sx={{mt: 2, mb: 2}}
+                                                    >
+
+
+                                                        <Button variant="contained"
+                                                                id='diet_button'
+                                                                component="label"
+                                                                style={{justifyContent: 'center', marginRight: 5}}
+                                                        >
+                                                            Diet-Plan
+                                                            <input
+                                                                type="file"
+                                                                name="diet"
+                                                                onChange={(e) => uploadDiet(e)}
+                                                                hidden
+                                                            /></Button>
+                                                        <Button variant="contained"
+                                                                component="label"
+                                                                style={{justifyContent: 'center'}}
+
+                                                        >
+                                                            Workout-Plan
+                                                            <input
+                                                                type="file"
+                                                                name="Work"
+                                                                onChange={(e) => uploadWork(e)}
+                                                                hidden
+                                                            /></Button>
+                                                    </Box>
+                                                    <Box
+                                                        display="flex"
+                                                        justifyContent="center"
+                                                        alignItems="center"
+                                                        className="card-body"
+                                                        id="transition-modal-description"
+                                                        sx={{mt: 2, mb: 2}}
+                                                    >
+                                                        <Button variant="outlined" onClick={(e) => handleButton(e)}
+                                                                sx={{mt: 2}}>Upload</Button>
+                                                    </Box>
+                                                </Box>
+
+                                            </Fade>
+                                        </Modal>
+                                    </div>
+                                </div>
+                            )
+                        })}
+
+                    </ul>
+                </div></div>) : (<div>
+
+                <div className=" flex justify-center items-center">
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-800 mt-20"></div>
+            </div>
+                </div>)}
+
         </div>
-        <ul class="flex flex-col">
-        {users.map((u, key)=>{
-            return(
-                <div>
-                <li class="border-gray-400 flex flex-row mb-2" onClick={()=>handleOpen(u.trainee, u.trainer)}>
-                <div class="transition duration-500 shadow ease-in-out transform hover:-translate-y-1 hover:shadow-lg select-none cursor-pointer bg-white dark:bg-gray-800 rounded-md flex flex-1 items-center p-4">
-                    <div class="flex flex-col w-10 h-10 justify-center items-center mr-4">
-                        <a href={u.profile} class="block relative">
-                            <img alt="profile" src={u.profile} class="mx-auto object-cover rounded-full h-10 w-10 "/>
-                        </a>
-                    </div>
-                    <div class="flex-1 pl-1 md:mr-16">
-                        <div class="font-medium dark:text-white">
-                            {u.firstname} {u.lastname}
-                        </div>
-                        <div class="text-gray-600 dark:text-gray-200 text-sm">
-                            {u.email}
-                        </div>
-                    </div>
-                    <div class="text-gray-600 dark:text-gray-200 text-xs">
-                        {u.contact_number}
-                    </div>
-                    <button class="w-24 text-right flex justify-end">
-                        <svg width="12" fill="currentColor" height="12" class="hover:text-gray-800 dark:hover:text-white dark:text-gray-200 text-gray-500" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1363 877l-742 742q-19 19-45 19t-45-19l-166-166q-19-19-19-45t19-45l531-531-531-531q-19-19-19-45t19-45l166-166q19-19 45-19t45 19l742 742q19 19 19 45t-19 45z">
-                            </path>
-                        </svg>
-                    </button>
-                </div>
-            </li>
-            
-            <div>
-            <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <Box className="card" sx={style}>
-          <a href={u.profile} class="block relative">
-                            <img alt="profil" src={u.profile} class="mx-auto object-cover rounded-full h-20 w-20 "/>
-            </a>
-            <Typography
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            
-              className="card-header"
-              id="transition-modal-title"
-              variant="h6"
-              component="h2"
-              mx={{align:"center"}}
-            >
-              {u.name}
-            </Typography>
-            <Typography
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-              className="card-body"
-              id="transition-modal-description"
-              sx={{ mt: 2, mb:2 }}
-            >
-              {u.contact}
-            </Typography>
-            <Typography
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-              className="card-body"
-              id="transition-modal-description"
-              sx={{ mt: 2, mb:2 }}
-            >
-              {u.email}
-            </Typography>
-            
-            
-            <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-              className="card-body"
-              id="transition-modal-description"
-              sx={{ mt: 2, mb:2 }}
-            >
-              
-                                                    
-            <Button   variant="contained"
-                      component="label"
-                      style={{justifyContent: 'center', marginRight:5}}
-            >
-            Diet-Plan
-            <input
-              type="file"
-              name="diet" 
-              onChange={(e)=>uploadDiet(e)}
-              hidden
-            /></Button>
-            <Button   variant="contained"
-                      component="label"
-                      style={{justifyContent: 'center'}}
-                      
-            >
-            Workout-Plan
-            <input
-              type="file"
-              name="Work" 
-              onChange={(e)=>uploadWork(e)}
-              hidden
-            /></Button>
-           </Box>
-            <Box 
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-              className="card-body"
-              id="transition-modal-description"
-              sx={{ mt: 2, mb:2 }}
-            >
-            <Button variant="outlined" onClick={(e)=>handleButton(e)} sx={{ mt: 2 }}>Upload</Button>
-            </Box>
-          </Box>
-          
-        </Fade>
-      </Modal>
-    </div>
-    </div>
-            )
-        })}
-           
-        </ul>
-    </div>
+
+
+
     )
 }
 
