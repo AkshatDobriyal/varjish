@@ -1,3 +1,7 @@
+# Varjish
+
+Web application for interaction between gym trainers and trainees, revolutionizing gymming in the post Covid era.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
